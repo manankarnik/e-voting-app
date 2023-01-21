@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import "package:flutter/gestures.dart";
+import "registration_page.dart";
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -22,7 +24,7 @@ class LoginPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(24),
             child: LoginForm(),
-          )
+          ),
         ],
       ),
     );
@@ -38,6 +40,9 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+  TextStyle defaultStyle = const TextStyle(color: Colors.grey, fontSize: 20.0);
+  TextStyle linkStyle = const TextStyle(color: Colors.blue);
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -73,6 +78,27 @@ class _LoginFormState extends State<LoginForm> {
             child: const Text(
               "Generate OTP",
               style: TextStyle(fontSize: 20),
+            ),
+          ),
+          RichText(
+            text: TextSpan(
+              style: defaultStyle,
+              text: "Returning voter? Login ",
+              children: <TextSpan>[
+                TextSpan(
+                  style: linkStyle,
+                  text: "here",
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegistrationPage(),
+                        ),
+                      );
+                    },
+                ),
+              ],
             ),
           ),
         ],

@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import 'package:flutter/gestures.dart';
+import "login_page.dart";
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({super.key});
@@ -6,6 +8,7 @@ class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Center(child: Text("E-Voting")),
       ),
@@ -38,6 +41,8 @@ class RegistrationForm extends StatefulWidget {
 
 class _RegistrationFormState extends State<RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
+  TextStyle defaultStyle = const TextStyle(color: Colors.grey, fontSize: 20.0);
+  TextStyle linkStyle = const TextStyle(color: Colors.blue);
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -47,26 +52,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
           TextFormField(
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
-              hintText: "First Name",
+              hintText: "Full Name",
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return "Please enter your first name";
-              }
-              return null;
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Last Name",
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Please enter your last name";
+                return "Please enter your full name";
               }
               return null;
             },
@@ -95,14 +85,38 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Processing Data')),
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginPage(),
+                  ),
                 );
               }
             },
             child: const Text(
               "Register",
               style: TextStyle(fontSize: 20),
+            ),
+          ),
+          RichText(
+            text: TextSpan(
+              style: defaultStyle,
+              text: "Returning voter? Login ",
+              children: <TextSpan>[
+                TextSpan(
+                  style: linkStyle,
+                  text: "here",
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ),
+                      );
+                    },
+                ),
+              ],
             ),
           ),
         ],
