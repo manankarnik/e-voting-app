@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "854636743635",
+    "project_id": "e-voting-app-d5e9c",
+    "storage_bucket": "e-voting-app-d5e9c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854636743635:android:58137f3ca63d2b2a0e7d26",
+        "android_client_info": {
+          "package_name": "com.example.e_voting_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "854636743635-2tjce2rn60fpmuvd04os1ghq5c6dl043.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.e_voting_app",
+            "certificate_hash": "36da25ca7e9ce74b76a1d9c355c714c3a146b660"
+          }
+        },
+        {
+          "client_id": "854636743635-er64oke91bqo7bu8bkmgeh7cmnq93ton.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHo5DkAk24hmQGQ_k0QLtVenTcvlXepHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "854636743635-er64oke91bqo7bu8bkmgeh7cmnq93ton.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
