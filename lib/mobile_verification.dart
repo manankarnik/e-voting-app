@@ -24,7 +24,8 @@ void verify(BuildContext context, String phoneNumber) async {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => OtpValidation(verificationId, resendToken),
+          builder: (context) =>
+              OtpValidation(phoneNumber, verificationId, resendToken),
         ),
       );
       // Update the UI - wait for the user to enter the SMS code

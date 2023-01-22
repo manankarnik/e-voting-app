@@ -6,9 +6,12 @@ import 'home_page.dart';
 FirebaseAuth auth = FirebaseAuth.instance;
 
 class OtpValidation extends StatelessWidget {
-  OtpValidation(this.verificationId, resendToken, {super.key});
+  OtpValidation(this.phoneNumber, this.verificationId, resendToken,
+      {super.key});
 
   String verificationId;
+  String phoneNumber;
+
   TextEditingController otpController = TextEditingController();
 
   @override
@@ -52,7 +55,7 @@ class OtpValidation extends StatelessWidget {
                           (value) => Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const HomePage(),
+                              builder: (context) => HomePage(phoneNumber),
                             ),
                           ),
                         );

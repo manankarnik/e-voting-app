@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'firestore.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage(this.phoneNumber, {super.key});
+  String phoneNumber;
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Logged in'),
+        child: FutureBuilder(
+          future: getUser(phoneNumber),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text('Welcome, ${snapshot.data["FullName"]}');
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
       ),
     );
   }
