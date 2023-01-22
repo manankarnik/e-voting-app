@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'registration_page.dart';
 import 'mobile_verification.dart';
+import 'firestore.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -44,6 +45,9 @@ class _LoginFormState extends State<LoginForm> {
   TextStyle defaultStyle = const TextStyle(color: Colors.grey, fontSize: 20.0);
   TextStyle linkStyle = const TextStyle(color: Colors.blue);
 
+  TextEditingController phoneController = TextEditingController();
+  bool userExists = false;
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -51,13 +55,27 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           TextFormField(
+            controller: phoneController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Enter your mobile number',
             ),
+            onChanged: (text) async {
+              await getUser(phoneController.text).then(
+                (data) {
+                  if (data != null) {
+                    setState(() => userExists = true);
+                  } else {
+                    setState(() => userExists = false);
+                  }
+                },
+              );
+            },
             validator: (value) {
               if (value == null || value.length != 10) {
                 return 'Please enter valid mobile number';
+              } else if (!userExists) {
+                return 'User does not exist. Please register';
               }
               return null;
             },
@@ -71,9 +89,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Processing Data')),
-                );
+                verify(context, phoneController.text);
               }
             },
             child: const Text(

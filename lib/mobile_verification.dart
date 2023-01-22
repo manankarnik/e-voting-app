@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'otp_verification.dart';
+import 'otp_validation.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 

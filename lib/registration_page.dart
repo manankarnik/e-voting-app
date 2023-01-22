@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'login_page.dart';
 import 'mobile_verification.dart';
+import 'firestore.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({super.key});
@@ -46,7 +47,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
   TextStyle defaultStyle = const TextStyle(color: Colors.grey, fontSize: 20.0);
   TextStyle linkStyle = const TextStyle(color: Colors.blue);
 
+  TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+
+  bool userExists = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +59,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
       child: Column(
         children: [
           TextFormField(
+            controller: nameController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Full Name',
@@ -75,9 +80,20 @@ class _RegistrationFormState extends State<RegistrationForm> {
               border: OutlineInputBorder(),
               hintText: 'Mobile number',
             ),
+            onChanged: (text) async {
+              await getUser(phoneController.text).then((data) {
+                if (data != null) {
+                  setState(() => userExists = true);
+                } else {
+                  setState(() => userExists = false);
+                }
+              });
+            },
             validator: (value) {
               if (value == null || value.length != 10) {
                 return 'Please enter valid mobile number';
+              } else if (userExists) {
+                return 'User with this phone number already exists';
               }
               return null;
             },
@@ -89,8 +105,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
             style: ElevatedButton.styleFrom(
               minimumSize: const Size.fromHeight(50),
             ),
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState!.validate()) {
+                addUser(nameController.text, phoneController.text);
                 verify(context, phoneController.text);
               }
             },
