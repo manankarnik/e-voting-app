@@ -6,13 +6,14 @@ import 'home_page.dart';
 FirebaseAuth auth = FirebaseAuth.instance;
 
 class OtpValidation extends StatelessWidget {
-  OtpValidation(this.phoneNumber, this.verificationId, resendToken,
+  OtpValidation(this.phoneNumber, this.verificationId, this.resendToken,
       {super.key});
 
-  String verificationId;
-  String phoneNumber;
+  final String verificationId;
+  final String phoneNumber;
+  final int? resendToken;
 
-  TextEditingController otpController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

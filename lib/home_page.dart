@@ -3,8 +3,8 @@ import 'auth.dart';
 import 'firestore.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage(this.phoneNumber, {super.key});
-  String phoneNumber;
+  const HomePage(this.phoneNumber, {super.key});
+  final String phoneNumber;
 
   @override
   Widget build(BuildContext context) {
