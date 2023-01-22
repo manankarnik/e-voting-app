@@ -116,6 +116,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
               style: TextStyle(fontSize: 20),
             ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
           RichText(
             text: TextSpan(
               style: defaultStyle,

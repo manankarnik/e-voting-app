@@ -97,6 +97,9 @@ class _LoginFormState extends State<LoginForm> {
               style: TextStyle(fontSize: 20),
             ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
           RichText(
             text: TextSpan(
               style: defaultStyle,
