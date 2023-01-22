@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.2.5
   firebase_core: ^2.4.1
+  pin_input_text_field: ^4.2.0
 
 dev_dependencies:
   flutter_test:

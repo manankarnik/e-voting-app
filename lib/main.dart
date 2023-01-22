@@ -1,6 +1,5 @@
-import "package:flutter/material.dart";
-import "registration_page.dart";
-import "login_page.dart";
+import 'package:flutter/material.dart';
+import 'registration_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future main() async {

@@ -1,6 +1,7 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import "login_page.dart";
+import 'login_page.dart';
+import 'mobile_verification.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({super.key});
@@ -10,14 +11,14 @@ class RegistrationPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Center(child: Text("E-Voting")),
+        title: const Center(child: Text('E-Voting | Register')),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: const [
           Text(
-            "Register",
+            'Register',
             style: TextStyle(
               fontSize: 30,
             ),
@@ -41,8 +42,12 @@ class RegistrationForm extends StatefulWidget {
 
 class _RegistrationFormState extends State<RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
+
   TextStyle defaultStyle = const TextStyle(color: Colors.grey, fontSize: 20.0);
   TextStyle linkStyle = const TextStyle(color: Colors.blue);
+
+  TextEditingController phoneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -52,11 +57,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
           TextFormField(
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
-              hintText: "Full Name",
+              hintText: 'Full Name',
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return "Please enter your full name";
+                return 'Please enter your full name';
               }
               return null;
             },
@@ -65,13 +70,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
             height: 20,
           ),
           TextFormField(
+            controller: phoneController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
-              hintText: "Mobile number",
+              hintText: 'Mobile number',
             ),
             validator: (value) {
               if (value == null || value.length != 10) {
-                return "Please enter valid mobile number";
+                return 'Please enter valid mobile number';
               }
               return null;
             },
@@ -85,27 +91,22 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ),
-                );
+                verify(context, phoneController.text);
               }
             },
             child: const Text(
-              "Register",
+              'Register',
               style: TextStyle(fontSize: 20),
             ),
           ),
           RichText(
             text: TextSpan(
               style: defaultStyle,
-              text: "Returning voter? Login ",
+              text: 'Returning voter? Login ',
               children: <TextSpan>[
                 TextSpan(
                   style: linkStyle,
-                  text: "here",
+                  text: 'here',
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       Navigator.pushReplacement(
