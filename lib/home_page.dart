@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'auth.dart';
 import 'firestore.dart';
 
 class HomePage extends StatelessWidget {
@@ -8,6 +9,15 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home'),
+        actions: [
+          IconButton(
+            onPressed: () => signOut(context),
+            icon: const Icon(Icons.logout),
+          )
+        ],
+      ),
       body: Center(
         child: FutureBuilder(
           future: getUser(phoneNumber),

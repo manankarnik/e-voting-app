@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'login_page.dart';
-import 'mobile_verification.dart';
+import 'auth.dart';
 import 'firestore.dart';
 
 class RegistrationPage extends StatelessWidget {
@@ -12,7 +12,7 @@ class RegistrationPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Center(child: Text('E-Voting | Register')),
+        title: const Center(child: Text('Register')),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'otp_validation.dart';
+import 'login_page.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -21,25 +22,21 @@ void verify(BuildContext context, String phoneNumber) async {
       // Handle other errors
     },
     codeSent: (String verificationId, int? resendToken) async {
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
               OtpValidation(phoneNumber, verificationId, resendToken),
         ),
       );
-      // Update the UI - wait for the user to enter the SMS code
-      // String smsCode = otp;
-
-      // Create a PhoneAuthCredential with the code
-      // PhoneAuthCredential credential = PhoneAuthProvider.credential(
-      //     verificationId: verificationId, smsCode: smsCode);
-
-      // // Sign the user in (or link) with the credential
-      // await auth.signInWithCredential(credential);
     },
     codeAutoRetrievalTimeout: (String verificationId) {
       // Auto-resolution timed out...
     },
   );
+}
+
+void signOut(context) async {
+  await FirebaseAuth.instance.signOut();
+  Navigator.pop(context);
 }

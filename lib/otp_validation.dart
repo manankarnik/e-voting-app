@@ -18,7 +18,7 @@ class OtpValidation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text('E-Voting | OTP Validation')),
+        title: const Center(child: Text('OTP Validation')),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),

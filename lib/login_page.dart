@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'registration_page.dart';
-import 'mobile_verification.dart';
+import 'auth.dart';
 import 'firestore.dart';
 
 class LoginPage extends StatelessWidget {
@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text('E-Voting | Login')),
+        title: const Center(child: Text('Login')),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
