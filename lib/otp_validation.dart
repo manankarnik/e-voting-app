@@ -31,67 +31,63 @@ class _OtpValidationState extends State<OtpValidation> {
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'Enter OTP',
-                style: TextStyle(
-                  fontSize: 30,
-                ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Enter OTP',
+              style: TextStyle(
+                fontSize: 30,
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Form(
-                key: _formKey,
-                child: PinInputTextFormField(
-                    onChanged: (text) async {
-                      if (text.length == 6) {
-                        String otp = otpController.text;
-                        // Create a PhoneAuthCredential with the code
-                        PhoneAuthCredential credential =
-                            PhoneAuthProvider.credential(
-                                verificationId: widget.verificationId,
-                                smsCode: otp);
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Form(
+              key: _formKey,
+              child: PinInputTextFormField(
+                  onChanged: (text) async {
+                    if (text.length == 6) {
+                      String otp = otpController.text;
+                      // Create a PhoneAuthCredential with the code
+                      PhoneAuthCredential credential =
+                          PhoneAuthProvider.credential(
+                              verificationId: widget.verificationId,
+                              smsCode: otp);
 
-                        // Sign the user in (or link) with the credential
-                        await auth
-                            .signInWithCredential(credential)
-                            .then((value) => setState(() => isValid = true))
-                            .catchError(
-                          (e) {
-                            isValid = false;
-                            print(e);
-                          },
+                      // Sign the user in (or link) with the credential
+                      await auth
+                          .signInWithCredential(credential)
+                          .then((value) => setState(() => isValid = true))
+                          .catchError(
+                        (e) {
+                          isValid = false;
+                          print(e);
+                        },
+                      );
+                      if (_formKey.currentState!.validate()) {
+                        if (!mounted) return;
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(widget.phoneNumber),
+                          ),
+                          ModalRoute.withName('/'),
                         );
                       }
-                    },
-                    validator: (value) {
-                      if (isValid) return null;
-                      return "Invalid OTP";
-                    },
-                    controller: otpController),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
-                  ),
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(widget.phoneNumber),
-                        ),
-                      );
                     }
                   },
-                  child: const Text('Submit'))
-            ]),
+                  validator: (value) {
+                    if (isValid) return null;
+                    return "Invalid OTP";
+                  },
+                  controller: otpController),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
       ),
     );
   }
