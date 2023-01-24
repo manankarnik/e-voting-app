@@ -105,7 +105,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
             style: ElevatedButton.styleFrom(
               minimumSize: const Size.fromHeight(50),
             ),
-            onPressed: () async {
+            onPressed: () {
               if (_formKey.currentState!.validate()) {
                 addUser(nameController.text, phoneController.text);
                 verify(context, phoneController.text);

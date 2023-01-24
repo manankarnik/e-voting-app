@@ -173,93 +173,103 @@ class _ChartState extends State<Chart> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      color: Colors.grey[200],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            Text(
-              'Vote Chart',
-              style: TextStyle(
-                  fontSize: 30,
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold),
-            ),
-            AspectRatio(
-              aspectRatio: 1,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedIndex = -1;
-                          return;
-                        }
-                        touchedIndex = pieTouchResponse
-                            .touchedSection!.touchedSectionIndex;
-                      });
-                    },
+    return FutureBuilder(
+      future: getVotePercent(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Card(
+            elevation: 0,
+            color: Colors.grey[200],
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  Text(
+                    'Vote Chart',
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold),
                   ),
-                  borderData: FlBorderData(
-                    show: false,
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: PieChart(
+                      PieChartData(
+                        pieTouchData: PieTouchData(
+                          touchCallback:
+                              (FlTouchEvent event, pieTouchResponse) {
+                            setState(() {
+                              if (!event.isInterestedForInteractions ||
+                                  pieTouchResponse == null ||
+                                  pieTouchResponse.touchedSection == null) {
+                                touchedIndex = -1;
+                                return;
+                              }
+                              touchedIndex = pieTouchResponse
+                                  .touchedSection!.touchedSectionIndex;
+                            });
+                          },
+                        ),
+                        borderData: FlBorderData(
+                          show: false,
+                        ),
+                        sectionsSpace: 0,
+                        centerSpaceRadius: 80,
+                        sections: showingSections(snapshot.data),
+                      ),
+                    ),
                   ),
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 80,
-                  sections: showingSections(),
-                ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const <Widget>[
+                      Indicator(
+                        color: Color(0xff0293ee),
+                        text: 'First',
+                        isSquare: true,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Indicator(
+                        color: Color(0xfff8b250),
+                        text: 'Second',
+                        isSquare: true,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Indicator(
+                        color: Color(0xff845bef),
+                        text: 'Third',
+                        isSquare: true,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Indicator(
+                        color: Color(0xff13d38e),
+                        text: 'Fourth',
+                        isSquare: true,
+                      ),
+                      SizedBox(
+                        height: 18,
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const <Widget>[
-                Indicator(
-                  color: Color(0xff0293ee),
-                  text: 'First',
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xfff8b250),
-                  text: 'Second',
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xff845bef),
-                  text: 'Third',
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xff13d38e),
-                  text: 'Fourth',
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 18,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+        return const CircularProgressIndicator();
+      },
     );
   }
 
-  List<PieChartSectionData> showingSections() {
+  List<PieChartSectionData> showingSections(votes) {
     return List.generate(4, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
@@ -268,8 +278,8 @@ class _ChartState extends State<Chart> {
         case 0:
           return PieChartSectionData(
             color: const Color(0xff0293ee),
-            value: 40,
-            title: '40%',
+            value: votes[i],
+            title: '${votes[i].toStringAsFixed(2)}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -280,8 +290,8 @@ class _ChartState extends State<Chart> {
         case 1:
           return PieChartSectionData(
             color: const Color(0xfff8b250),
-            value: 30,
-            title: '30%',
+            value: votes[i],
+            title: '${votes[i].toStringAsFixed(2)}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -292,8 +302,8 @@ class _ChartState extends State<Chart> {
         case 2:
           return PieChartSectionData(
             color: const Color(0xff845bef),
-            value: 15,
-            title: '15%',
+            value: votes[i],
+            title: '${votes[i].toStringAsFixed(2)}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -304,8 +314,8 @@ class _ChartState extends State<Chart> {
         case 3:
           return PieChartSectionData(
             color: const Color(0xff13d38e),
-            value: 15,
-            title: '15%',
+            value: votes[i],
+            title: '${votes[i].toStringAsFixed(2)}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
