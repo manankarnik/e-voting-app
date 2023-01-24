@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'otp_validation.dart';
+import 'login_page.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -37,5 +38,6 @@ void verify(BuildContext context, String phoneNumber) async {
 
 void signOut(context) async {
   await FirebaseAuth.instance.signOut();
-  Navigator.pop(context);
+  Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => const LoginPage()));
 }
