@@ -19,52 +19,19 @@ class _HomePageState extends State<HomePage> {
   Widget getWidget(homeText) {
     switch (selectedIndex) {
       case 0:
-        return Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                width: double.infinity,
-              ),
-              Text(
-                'Welcome, $homeText',
-                style: headingStyle,
-              ),
-            ],
-          ),
+        return Text(
+          'Welcome, $homeText',
+          style: headingStyle,
         );
       case 1:
-        return Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              SizedBox(
-                width: double.infinity,
-              ),
-              Text(
-                'Vote',
-                style: headingStyle,
-              ),
-            ],
-          ),
+        return const Text(
+          'Vote',
+          style: headingStyle,
         );
       default:
-        return Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              SizedBox(
-                width: double.infinity,
-              ),
-              Text(
-                'Settings',
-                style: headingStyle,
-              ),
-            ],
-          ),
+        return const Text(
+          'Settings',
+          style: headingStyle,
         );
     }
   }
@@ -85,7 +52,18 @@ class _HomePageState extends State<HomePage> {
         future: getUser(widget.phoneNumber),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return getWidget(snapshot.data["FullName"]);
+            return Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: double.infinity,
+                  ),
+                  getWidget(snapshot.data["FullName"])
+                ],
+              ),
+            );
           }
           return const CircularProgressIndicator();
         },
