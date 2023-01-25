@@ -22,20 +22,53 @@ Future getUser(phoneNumber) async {
   return data;
 }
 
-Future getVotePercent() async {
+Future getParties() async {
   final collRef = FirebaseFirestore.instance.collection('Parties');
-  List<int> votes = [];
-  for (var i = 1; i <= 4; i++) {
+  List<Map<String, dynamic>?> parties = [];
+  Map<String, dynamic>? data;
+  int size = await collRef.get().then((value) => value.size);
+  for (var i = 1; i <= size; i++) {
     final docRef = collRef.doc(i.toString());
-    Map<String, dynamic>? data;
     await docRef.get().then(
       (DocumentSnapshot doc) {
         if (!doc.exists) return null;
         data = doc.data() as Map<String, dynamic>;
-        votes.add(data?['Votes']);
+        parties.add(data);
       },
       onError: (e) => print('Error: $e'),
     );
   }
-  return votes.map((e) => (e / votes.reduce((a, b) => a + b) * 100)).toList();
+  return parties;
+}
+
+Future incrementVotes(
+    String partyName, String phoneNumber, Function callback) async {
+  final db = FirebaseFirestore.instance;
+  final partyDocRef = await db
+      .collection('Parties')
+      .where('Name', isEqualTo: partyName)
+      .limit(1)
+      .get()
+      .then((QuerySnapshot snapshot) {
+    return snapshot.docs[0].reference;
+  });
+  final userDocRef = await db
+      .collection('Users')
+      .where('PhoneNumber', isEqualTo: phoneNumber)
+      .limit(1)
+      .get()
+      .then((QuerySnapshot snapshot) {
+    return snapshot.docs[0].reference;
+  });
+
+  await db.runTransaction((transaction) async {
+    transaction.update(partyDocRef, {
+      // Pass the DocumentReference here ^^
+      "Votes": FieldValue.increment(1),
+    });
+    transaction.update(userDocRef, {
+      // Pass the DocumentReference here ^^
+      "Voted": true,
+    });
+  }).then((value) => callback());
 }
