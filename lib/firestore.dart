@@ -4,7 +4,7 @@ Future addUser(name, phoneNumber) async {
   final dbCollection = FirebaseFirestore.instance.collection('Users');
   await dbCollection
       .doc(phoneNumber)
-      .set({'FullName': name, 'PhoneNumber': phoneNumber});
+      .set({'FullName': name, 'PhoneNumber': phoneNumber, 'Voted': false});
 }
 
 Future getUser(phoneNumber) async {
