@@ -248,27 +248,37 @@ class Party extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      color: Colors.blue[100],
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              partyName,
-              style: const TextStyle(fontWeight: FontWeight.w500),
-            ),
-            ElevatedButton(
-                onPressed: voted
-                    ? null
-                    : () async {
-                        callback(partyName, phoneNumber, votedCallback);
-                      },
-                child: Text(voted ? 'Already voted' : 'Vote'))
-          ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 6, bottom: 6),
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        color: Colors.blue[100],
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(12),
+                child: Image(
+                  image: AssetImage('lib/images/voting.png'),
+                  height: 40,
+                ),
+              ),
+              Text(
+                partyName,
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+              ElevatedButton(
+                  onPressed: voted
+                      ? null
+                      : () async {
+                          callback(partyName, phoneNumber, votedCallback);
+                        },
+                  child: Text(voted ? 'Already voted' : 'Vote'))
+            ],
+          ),
         ),
       ),
     );
