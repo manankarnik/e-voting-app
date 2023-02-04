@@ -142,52 +142,26 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 20,
             ),
-            Party(
-              partyName: 'Party 1',
-              voted: data['Voted'],
-              phoneNumber: widget.phoneNumber,
-              callback: incrementVotes,
-              votedCallback: votedCallback,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Party(
-              partyName: 'Party 2',
-              voted: data['Voted'],
-              phoneNumber: widget.phoneNumber,
-              callback: incrementVotes,
-              votedCallback: votedCallback,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Party(
-              partyName: 'Party 3',
-              voted: data['Voted'],
-              phoneNumber: widget.phoneNumber,
-              callback: incrementVotes,
-              votedCallback: votedCallback,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Party(
-              partyName: 'Party 4',
-              voted: data['Voted'],
-              phoneNumber: widget.phoneNumber,
-              callback: incrementVotes,
-              votedCallback: votedCallback,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Party(
-              partyName: 'Party 5',
-              voted: data['Voted'],
-              phoneNumber: widget.phoneNumber,
-              callback: incrementVotes,
-              votedCallback: votedCallback,
+            FutureBuilder(
+              future: getParties(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: snapshot.data
+                        .map<Widget>(
+                          (party) => Party(
+                            partyName: party["Name"],
+                            voted: data['Voted'],
+                            phoneNumber: widget.phoneNumber,
+                            callback: incrementVotes,
+                            votedCallback: votedCallback,
+                          ),
+                        )
+                        .toList(),
+                  );
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
             ),
           ],
         );
@@ -320,8 +294,6 @@ class _ChartState extends State<Chart> {
       future: getParties(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          // print(snapshot.data.map((e) =>
-          //     (e / snapshot.data['Votes'].reduce((a, b) => a + b) * 100)));
           List votes = [];
           for (final map_ in snapshot.data) {
             votes.add(map_['Votes']);
