@@ -133,9 +133,9 @@ class _HomePageState extends State<HomePage> {
         return Column(
           children: [
             Text(
-              'Vote',
+              'Vote for Your Desired Party',
               style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 28,
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.bold),
             ),
