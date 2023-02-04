@@ -307,9 +307,10 @@ class _ChartState extends State<Chart> {
           for (final map_ in snapshot.data) {
             votes.add(map_['Votes']);
           }
-          votes = votes
+          List votesPercent = votes
               .map((e) => (e / votes.reduce((a, b) => a + b) * 100))
               .toList();
+          print(votesPercent);
 
           return Card(
             elevation: 0,
@@ -351,7 +352,7 @@ class _ChartState extends State<Chart> {
                           ),
                           sectionsSpace: 0,
                           centerSpaceRadius: 80,
-                          sections: showingSections(votes)),
+                          sections: showingSections(votes, votesPercent)),
                     ),
                   ),
                   Padding(
@@ -410,17 +411,18 @@ class _ChartState extends State<Chart> {
     );
   }
 
-  List<PieChartSectionData> showingSections(votes) {
+  List<PieChartSectionData> showingSections(votes, votesPercent) {
     return List.generate(5, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 20.0 : 10.0;
-      final radius = isTouched ? 70.0 : 50.0;
+      final radius = isTouched ? 90.0 : 50.0;
       switch (i) {
         case 0:
           return PieChartSectionData(
             color: const Color(0xff0293ee),
-            value: votes[i],
-            title: '${votes[i].toStringAsFixed(2)}%',
+            value: votesPercent[i],
+            title:
+                '${votesPercent[i].toStringAsFixed(2)}%\n${votes[i]} vote(s)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -431,8 +433,9 @@ class _ChartState extends State<Chart> {
         case 1:
           return PieChartSectionData(
             color: const Color(0xfff8b250),
-            value: votes[i],
-            title: '${votes[i].toStringAsFixed(2)}%',
+            value: votesPercent[i],
+            title:
+                '${votesPercent[i].toStringAsFixed(2)}%\n${votes[i]} vote(s)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -443,8 +446,9 @@ class _ChartState extends State<Chart> {
         case 2:
           return PieChartSectionData(
             color: const Color(0xff845bef),
-            value: votes[i],
-            title: '${votes[i].toStringAsFixed(2)}%',
+            value: votesPercent[i],
+            title:
+                '${votesPercent[i].toStringAsFixed(2)}%\n${votes[i]} vote(s)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -455,8 +459,9 @@ class _ChartState extends State<Chart> {
         case 3:
           return PieChartSectionData(
             color: const Color(0xff13d38e),
-            value: votes[i],
-            title: '${votes[i].toStringAsFixed(2)}%',
+            value: votesPercent[i],
+            title:
+                '${votesPercent[i].toStringAsFixed(2)}%\n${votes[i]} vote(s)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -467,8 +472,9 @@ class _ChartState extends State<Chart> {
         case 4:
           return PieChartSectionData(
             color: const Color(0xfff5387a),
-            value: votes[i],
-            title: '${votes[i].toStringAsFixed(2)}%',
+            value: votesPercent[i],
+            title:
+                '${votesPercent[i].toStringAsFixed(2)}%\n${votes[i]} vote(s)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
